@@ -1,0 +1,7 @@
+{
+  "name": "Tcc-appPub",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
