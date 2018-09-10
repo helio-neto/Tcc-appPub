@@ -1,0 +1,53 @@
+<ion-header>
+
+    <ion-navbar>
+          <button ion-button menuToggle>
+                  <ion-icon name="menu"></ion-icon>
+                </button>
+      <ion-title>Efetuar Login</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content padding>
+    <div padding id="cloud-layer">
+ 
+        <ion-row>
+          <ion-col>
+            <!-- <img src="" /> -->
+          </ion-col>
+        </ion-row>
+        <form [formGroup]="loginForm">
+        <ion-row>
+          <ion-col>
+            <ion-list inset>
+     
+                <ion-item>
+                    <ion-label floating>E-mail</ion-label>
+                    <ion-input formControlName="email" type="email" [class.invalid]="!loginForm.controls['email'].valid && (loginForm.controls['email'].dirty || submitAttempt)"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!loginForm.controls['email'].valid  && (loginForm.controls['email'].dirty || submitAttempt)">
+                    <p>* Por favor entre um email válido.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Senha</ion-label>
+                    <ion-input formControlName="password" type="password" [class.invalid]="!loginForm.controls['password'].valid && (loginForm.controls['password'].dirty || submitAttempt)"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!loginForm.controls['password'].valid  && (loginForm.controls['password'].dirty || submitAttempt)">
+                    <p>* Por favor informe uma senha.</p>
+                </ion-item>
+     
+            </ion-list>
+          </ion-col>
+        </ion-row>
+     </form>
+        <ion-row>
+          <ion-col>
+            <button ion-button class="login-button" color="secondary" (click)="login()">Login</button>
+          </ion-col>
+        </ion-row>
+     
+      </div>
+     
+</ion-content>

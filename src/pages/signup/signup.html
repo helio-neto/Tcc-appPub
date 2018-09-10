@@ -1,0 +1,98 @@
+<ion-header>
+
+  <ion-navbar>
+        <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+              </button>
+    <ion-title>Cadastre seu Pub</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding> 
+    <ion-row>
+        <ion-col>
+          <img src="../../assets/imgs/beerslide3.jpg" />
+        </ion-col>
+      </ion-row>
+      <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p>
+ 
+<ion-list no-lines>
+ 
+    <form [formGroup]="pubForm">
+ 
+        <ion-item>
+            <ion-label floating>Nome Pub / Estabelecimento</ion-label>
+            <ion-input formControlName="pubname" type="text" [class.invalid]="!pubForm.controls['pubname'].valid && (pubForm.controls['pubname'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['pubname'].valid  && (pubForm.controls['pubname'].dirty || submitAttempt)">
+            <p>* Por favor entre um nome válido.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Nome do responsável</ion-label>
+            <ion-input formControlName="ownername" type="text" [class.invalid]="!pubForm.controls['ownername'].valid && (pubForm.controls['ownername'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['ownername'].valid  && (pubForm.controls['ownername'].dirty || submitAttempt)">
+            <p>* Por favor entre um nome válido.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Telefone</ion-label>
+            <ion-input formControlName="phone" type="text" [class.invalid]="!pubForm.controls['phone'].valid && (pubForm.controls['phone'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['phone'].valid  && (pubForm.controls['phone'].dirty || submitAttempt)">
+            <p>* Por favor entre um telefone válido.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Celular</ion-label>
+            <ion-input formControlName="celphone" type="text" [class.invalid]="!pubForm.controls['celphone'].valid && (pubForm.controls['celphone'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['celphone'].valid  && (pubForm.controls['celphone'].dirty || submitAttempt)">
+            <p>* Por favor entre um celular válido.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Informações do Pub</ion-label>
+            <ion-textarea formControlName="info" type="text" [class.invalid]="!pubForm.controls['info'].valid && (pubForm.controls['info'].dirty || submitAttempt)"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Foto</ion-label>
+            <ion-input formControlName="photo" type="text" [class.invalid]="!pubForm.controls['photo'].valid && (pubForm.controls['photo'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>E-mail (Login)</ion-label>
+            <ion-input formControlName="email" type="email" [class.invalid]="!pubForm.controls['email'].valid && (pubForm.controls['email'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['email'].valid  && (pubForm.controls['email'].dirty || submitAttempt)">
+            <p>* Por favor entre um email válido.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Senha</ion-label>
+            <ion-input formControlName="password" type="password" [class.invalid]="!pubForm.controls['password'].valid && (pubForm.controls['password'].dirty || submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!pubForm.controls['password'].valid  && (pubForm.controls['password'].dirty || submitAttempt)">
+            <p>* Por favor informe uma senha.</p>
+        </ion-item>
+        <span formGroupName="location" no-lines>
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>Endereço</ion-label>
+                    <ion-input type="text" formControlName="street"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!pubForm.controls['location'].controls['street'].valid  && (pubForm.controls['location'].controls['street'].dirty || submitAttempt)">
+                    <p>* Por favor entre um endereço válido.</p>
+                </ion-item>
+                <ion-item>
+                    <button ion-button item-end icon-end color="secondary" (click)="getPubAddress()" >
+                          Validar Endereço
+                          <ion-icon name='search'></ion-icon>
+                    </button>
+                </ion-item>
+            </ion-list>    
+        </span>
+    </form>
+ 
+</ion-list>
+<button ion-button full [disabled]="!addressConfirm"
+        color="primary" (click)="save()">Entrar no HasBeer!
+</button>
+</ion-content>

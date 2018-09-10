@@ -8,6 +8,16 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Network } from '@ionic-native/network';
+import { HttpClientModule } from '@angular/common/http';
+
+import { DirectivesModule } from '../directives/directives.module';
+import { PubProvider } from '../providers/pub/pub';
+import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
+import { ConnectivityService } from '../providers/connectivity-service/connectivity-service';
+import { LocationsProvider } from '../providers/locations/locations';
 
 @NgModule({
   declarations: [
@@ -17,7 +27,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+    DirectivesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -28,7 +41,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Geolocation,
+    Network,
+    PubProvider,
+    GoogleMapsProvider,
+    ConnectivityService,
+    LocationsProvider
   ]
 })
 export class AppModule {}
