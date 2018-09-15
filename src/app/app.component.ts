@@ -91,11 +91,15 @@ export class MyApp {
   }
   // 
   logout(){
-    this.storage.set('pub_userdata',{
-      pub: null,
-      isLoggedIn: false
+    // 
+    this.storage.get('pub_userdata').then((val)=>{
+      val.pub = null;
+      val.isLoggedIn = false;
+      this.storage.set('pub_userdata',val).then((result)=>{
+        console.log(result);
+        this.isLoggedIn = false;
+        this.nav.setRoot(HomePage);
+      });
     });
-    this.isLoggedIn = false;
-    this.nav.setRoot(HomePage);
   }
 }

@@ -51,14 +51,15 @@ export class LoginPage {
       this.submitAttempt = false;
       console.log("success!")
       console.log("Form ->",this.loginForm.value);
-      this.pubprov.login(this.loginForm.value).subscribe((res)=>{
-        if(res.status == "error"){
-          this.presentToast(res.message,"error");
+      this.pubprov.login(this.loginForm.value).subscribe((login)=>{
+        if(login.status == "error"){
+          this.presentToast(login.message,"error");
         }else{
-          this.presentToast(res.message,"success");
+          this.presentToast(login.message,"success");
           this.storage.set('pub_userdata',Object.assign({
-              pub: res.pub[0],
-              isLoggedIn: true
+              pub: login.pub,
+              isLoggedIn: true,
+              token: login.token
             })
           );
           setTimeout(() => {
@@ -66,7 +67,7 @@ export class LoginPage {
             this.navCtrl.setRoot(ListPage);
           }, 4000);
         }
-        console.log("Login response ->",res);
+        console.log("Login response ->",login);
       });
     }
 
