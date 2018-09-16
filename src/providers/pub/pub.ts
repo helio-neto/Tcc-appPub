@@ -8,8 +8,8 @@ export class PubProvider {
   
   data : any;
   
-  //private urlAPI = "https://tcchasbeeer.herokuapp.com/api/pubs";
-  private urlAPI = "http://localhost:8080/api/pubs";
+  private urlAPI = "https://tcchasbeeer.herokuapp.com/api/pubs";
+  //private urlAPI = "http://localhost:8080/api/pubs";
 
 
   constructor(public http: HttpClient) {
@@ -40,7 +40,7 @@ export class PubProvider {
   login(pub){
     let headers = new HttpHeaders();
     headers.append("Content-type","application/json");
-    headers.append('Access-Control-Allow-Origin', '*');
+    
     return this.http.post(this.urlAPI+"/loginAuth", pub,{headers:headers})
     .map(res => <any[]>res)
     .catch((erro:any)=>Observable.throw(erro));
