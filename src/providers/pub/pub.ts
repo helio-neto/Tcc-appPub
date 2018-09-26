@@ -9,7 +9,7 @@ export class PubProvider {
   data : any;
   
   private urlAPI = "https://tcchasbeeer.herokuapp.com/api/pubs";
-  //private urlAPI = "http://localhost:8080/api/pubs";
+  // private urlAPI = "http://localhost:8080/api/pubs";
 
 
   constructor(public http: HttpClient) {

@@ -27,9 +27,7 @@ export class MyApp {
 
     // 
     this.pages = [
-      { title: 'Bem-Vindo', component: HomePage, icon: 'images' },
-      { title: 'Perfil', component: ListPage, icon: 'information-circle' },
-      { title: 'Cervejas', component: ListPage, icon: 'beer' }
+      { title: 'Bem-Vindo', component: HomePage, icon: 'images' }
     ];
     // 
     this.accountMenuItems = [
@@ -48,6 +46,10 @@ export class MyApp {
 
     this.events.subscribe("login", ()=>{
       this.isLoggedIn = true;
+      this.pages = [
+        { title: 'Perfil', component: "ProfilePage", icon: 'information-circle' },
+        { title: 'Cervejas', component: ListPage, icon: 'beer' }
+      ];
     });
   }
   // 
@@ -72,9 +74,13 @@ export class MyApp {
       if(val){
         console.log("Storage ->",val);
         if(val.isLoggedIn){
+          this.pages = [
+            { title: 'Perfil', component: "ProfilePage", icon: 'information-circle' },
+            { title: 'Cervejas', component: ListPage, icon: 'beer' }
+          ];
           console.log("Already Logged In!");
           this.isLoggedIn = true;
-          this.rootPage = ListPage;
+          this.rootPage = "ProfilePage";
           this.splashScreen.hide();
         }else{
           console.log("Not Logged In!");
@@ -95,9 +101,13 @@ export class MyApp {
     this.storage.get('pub_userdata').then((val)=>{
       val.pub = null;
       val.isLoggedIn = false;
+      val.token = null;
       this.storage.set('pub_userdata',val).then((result)=>{
         console.log(result);
         this.isLoggedIn = false;
+        this.pages = [
+          { title: 'Bem-Vindo', component: HomePage, icon: 'images' }
+        ];
         this.nav.setRoot(HomePage);
       });
     });

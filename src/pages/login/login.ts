@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController, Events } from 'io
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { PubProvider } from './../../providers/pub/pub';
-import { ListPage } from './../list/list';
 
 @IonicPage()
 @Component({
@@ -64,7 +63,7 @@ export class LoginPage {
           );
           setTimeout(() => {
             this.events.publish("login");
-            this.navCtrl.setRoot(ListPage);
+            this.navCtrl.setRoot("ProfilePage");
           }, 4000);
         }
         console.log("Login response ->",login);
