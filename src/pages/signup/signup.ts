@@ -5,7 +5,7 @@ import { PubProvider } from './../../providers/pub/pub';
 import { GoogleMapsProvider } from './../../providers/google-maps/google-maps';
 import { Storage } from '@ionic/storage';
 
-import { ListPage } from './../list/list';
+import { HomePage } from './../home/home';
 
 @IonicPage()
 @Component({
@@ -147,12 +147,12 @@ export class SignupPage {
             if(res.status == "success"){
               let message = `${res.message}`;
               this.presentToast(message,"success");
-              this.storage.set('userdata',{
-                pubid: res.pubid,
-                isLoggedIn: true
-              })
+              // this.storage.set('userdata',{
+              //   pubid: res.pubid,
+              //   isLoggedIn: true
+              // })
               setTimeout(() => {
-                  this.navCtrl.setRoot(ListPage);
+                  this.navCtrl.setRoot(HomePage);
               }, 4000);
             }else{
               let message = `${res.message}`;
