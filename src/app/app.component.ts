@@ -48,7 +48,7 @@ export class MyApp {
       this.isLoggedIn = true;
       this.pages = [
         { title: 'Perfil', component: "ProfilePage", icon: 'information-circle' },
-        { title: 'Cervejas', component: ListPage, icon: 'beer' }
+        { title: 'Cervejas', component: "BeerMenuPage", icon: 'beer' }
       ];
     });
   }
@@ -76,7 +76,7 @@ export class MyApp {
         if(val.isLoggedIn){
           this.pages = [
             { title: 'Perfil', component: "ProfilePage", icon: 'information-circle' },
-            { title: 'Cervejas', component: ListPage, icon: 'beer' }
+            { title: 'Cervejas', component: "BeerMenuPage", icon: 'beer' }
           ];
           console.log("Already Logged In!");
           this.isLoggedIn = true;

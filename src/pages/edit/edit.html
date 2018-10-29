@@ -65,13 +65,6 @@
         <ion-item *ngIf="!pubForm.controls['email'].valid  && (pubForm.controls['email'].dirty || submitAttempt)">
             <p>* Por favor entre um email válido.</p>
         </ion-item>
-        <ion-item>
-            <ion-label floating>Senha</ion-label>
-            <ion-input formControlName="password" type="password" [class.invalid]="!pubForm.controls['password'].valid && (pubForm.controls['password'].dirty || submitAttempt)"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="!pubForm.controls['password'].valid  && (pubForm.controls['password'].dirty || submitAttempt)">
-            <p>* Por favor informe uma senha.</p>
-        </ion-item>
         <span formGroupName="location" no-lines>
             <ion-list>
                 <ion-item>
@@ -92,7 +85,7 @@
     </form>
  
 </ion-list>
-<button ion-button full [disabled]="!addressConfirm"
-        color="primary" (click)="save()">Entrar no HasBeer!
+<button ion-button full [disabled]="!this.pubForm.valid"
+        color="primary" (click)="edit()">Editar
 </button>
 </ion-content>

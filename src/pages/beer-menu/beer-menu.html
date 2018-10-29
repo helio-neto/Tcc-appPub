@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title *ngIf="!selectedItem">Carta de Cervejas</ion-title>
+      <ion-title *ngIf="selectedItem">{{selectedItem.name}}</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+    <div *ngIf="!selectedItem">
+        <ion-list *ngFor="let beer of beers">
+            <div *ngIf="beer != null" >
+              <ion-item (click)="itemTapped($event, beer)">
+                <ion-avatar item-start>
+                  <img src="assets/icon/mapicons/beer.png">
+                </ion-avatar>
+                <h2>{{beer.name}}</h2>
+                <p>{{beer.style}}</p>
+              </ion-item>
+            </div>
+          </ion-list>
+    </div>
+    <div *ngIf="selectedItem" padding>
+      <ion-item>
+          <ion-avatar item-start>
+              <img src="assets/icon/mapicons/beer.png">
+            </ion-avatar>
+          <h1>Informações</h1>
+          <p><b>IBU : </b>{{selectedItem.ibu}}</p>
+          <p><b>ABV : </b>{{selectedItem.abv}}</p>
+          <p><b>Estilo : </b>{{selectedItem.style}}</p>
+          <p><b>Preços : </b></p>
+          <p><b> - 1/2 Pint - </b>R${{selectedItem.price.half_pint}}</p>
+          <p><b> - Pint - </b>R${{selectedItem.price.pint}}</p>
+          <p><b> - Mass - </b>R${{selectedItem.price.mass}}</p>
+          <p><b> - Obs - </b>R${{selectedItem.obs}}</p>
+      </ion-item>
+      <ion-item>
+          <button ion-button icon-left clear item-left (click)="editBeer(selectedItem)">
+              <ion-icon name="construct"></ion-icon>
+              Editar
+          </button>
+      </ion-item>
+    </div>
+    <ion-fab right bottom>
+        <button ion-fab mini (click)="addBeer()" >
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab>
+  </ion-content>
+  

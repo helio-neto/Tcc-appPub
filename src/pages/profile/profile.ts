@@ -28,5 +28,17 @@ export class ProfilePage {
         console.log("Pub Data ->",this.pubdata);
       });
   }
+  // 
+  openMenu(){
+    this.navCtrl.push("BeerMenuPage");
+  }
+  // 
+  openComments(){
+    this.navCtrl.push("CommentsPage",{comments: this.pubdata.pub.comments});
+  }
+  // 
+  goEdit(){
+      this.navCtrl.push("EditPage",{pub:this.pubdata.pub});
+  }
 
 }

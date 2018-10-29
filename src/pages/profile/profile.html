@@ -10,41 +10,50 @@
 
 <ion-content class="background_menu" *ngIf="pubReady" >
   <ion-card *ngIf="pubdata.pub.pubname">
-      <img class="pubimage" [src]="pubdata.pub.photo" />
+      <img class="pubimage" [src]="pubdata.pub.photo" height='200' />
       <ion-card-content>
           <h2 class="card-title">{{pubdata.pub.pubname}}</h2>
           <p>{{pubdata.pub.location.street}}, {{pubdata.pub.location.city}} {{pubdata.pub.location.uf}}</p>
       </ion-card-content>
       <ion-list>
-
-          <ion-item>
-              <ion-icon item-left name="beer"></ion-icon>
-              <h3>Carta de Cervejas</h3>
-              <ion-note item-right iont-text color="dark">{{pubdata.pub.beers.length}}</ion-note>
-          </ion-item>
+        <button ion-item (click)="openMenu()">
+            <ion-icon item-left name="beer"></ion-icon>
+            <h3>Carta de Cervejas</h3>
+            <ion-note item-right iont-text color="dark">
+                    {{pubdata.pub.beers.length}}
+                    <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
+        </button>
           <ion-item>
               <ion-icon item-left name="mail"></ion-icon>
               <h3>E-mail</h3>
               <ion-note item-right iont-text color="dark">{{pubdata.pub.email}}</ion-note>
           </ion-item>
-          <button ion-item>
+          <ion-item>
               <ion-icon item-left name="call"></ion-icon>
               <h3>Fone</h3>
               <ion-note item-right iont-text color="dark">{{pubdata.pub.phone}}</ion-note>
-          </button>
-          <button ion-item>
+          </ion-item>
+          <ion-item>
             <ion-icon item-left name="phone-portrait"></ion-icon>
-            <h3>Fone</h3>
+            <h3>Celular</h3>
             <ion-note item-right iont-text color="dark">{{pubdata.pub.celphone}}</ion-note>
+          </ion-item>
+          <button ion-item (click)="openComments()">
+            <ion-icon item-left name="clipboard"></ion-icon>
+            <h3>Mural de Comentários</h3>
+            <ion-note item-right iont-text color="dark">
+                    <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
         </button>
       </ion-list>
 
-      <!-- <ion-item>
-          <button ion-button icon-left clear item-left>
-              <ion-icon name="construct"></ion-icon>
-              Editar
-          </button>
-      </ion-item> -->
+      <ion-item>
+        <button ion-button icon-left clear item-left (click)="goEdit()">
+            <ion-icon name="construct"></ion-icon>
+            Editar
+        </button>
+    </ion-item>
       
   </ion-card>
 </ion-content>

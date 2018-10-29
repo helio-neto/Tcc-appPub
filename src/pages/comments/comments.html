@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="comments">Mural de comentários</ion-title>
+    <ion-title *ngIf="comment">Detalhe</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="comments" >
+      <ion-list>
+          <button ion-item *ngFor="let comment of comments" (click)="openCommentDetail(comment)">
+            <ion-thumbnail item-start>
+                <img src="assets/imgs/beer_logo.jpg">
+                <p>{{comment.user}}</p>
+            </ion-thumbnail>
+            <p>{{comment.message}}</p>
+            <p>{{comment.created | date : 'd/M/yy, h:mm a' }}</p>
+            <ion-icon name="arrow-forward" item-right></ion-icon>
+          </button>
+        </ion-list>
+  </div>
+  
+  <div *ngIf="comment" padding>
+      <p>{{comment.message}}</p>
+      <p>{{comment.created | date : 'd/M/yy, h:mm a' }}</p>
+  </div>
+  </ion-content>
