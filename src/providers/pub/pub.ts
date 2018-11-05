@@ -9,8 +9,8 @@ export class PubProvider {
   
   data : any;
   pub: any;
-  // private urlAPI = "https://tcchasbeeer.herokuapp.com/api/pubs";
-  private urlAPI = "http://localhost:8080/api/pubs";
+  private urlAPI = "https://tcchasbeeer.herokuapp.com/api/pubs";
+  // private urlAPI = "http://localhost:8080/api/pubs";
 
   constructor(public http: HttpClient,private storage: Storage) {
     console.log('PubProvider Brewing!');
@@ -78,14 +78,18 @@ export class PubProvider {
     });
   }
   // 
-  async addBeer(beer){
+  async addBeer(beers){
     let headers = new HttpHeaders();
     headers.append("Content-type","application/json");
-    console.log("Adicionando cerveja",beer);
     let userStorage = await this.getStorageData();
-    beer.token = userStorage.token;
+    let payload = {
+      beers: beers,
+      token: userStorage.token,
+      pub_id: userStorage.pub._id
+    }
+    console.log("Adicionando cerveja",payload);
     return new Promise((resolve, reject)=>{
-      this.http.put(`${this.urlAPI}/${beer.id}`, beer,{headers:headers})
+      this.http.put(`${this.urlAPI}/beers/${payload.pub_id}`, payload,{headers:headers})
         .subscribe(result =>{
           resolve(result);
         },
@@ -99,11 +103,41 @@ export class PubProvider {
   async editBeer(beer){
     let headers = new HttpHeaders();
     headers.append("Content-type","application/json");
-    console.log("Editando cerveja",beer);
     let userStorage = await this.getStorageData();
-    beer.token = userStorage.token;
+    let payload = {
+      beer: beer,
+      token: userStorage.token,
+      pub_id: userStorage.pub._id
+    }
+    console.log("Editando cerveja",payload);
     return new Promise((resolve, reject)=>{
-      this.http.put(`${this.urlAPI}/${beer.id}`, beer,{headers:headers})
+      this.http.patch(`${this.urlAPI}/beers/${payload.pub_id}`, payload,{headers:headers})
+        .subscribe(result =>{
+          resolve(result);
+        },
+        error=>{
+          console.log("ERRO na requisiçao",error);
+          reject(error);
+        });
+    });
+  }
+  // 
+  async deleteBeer(beer){
+    let userStorage = await this.getStorageData();
+    let payload = {
+      beer_id: beer._id,
+      token: userStorage.token,
+      pub_id: userStorage.pub._id
+    }
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: payload,
+    };
+    console.log("Deletando cerveja",payload);
+    return new Promise((resolve, reject)=>{
+      this.http.delete(`${this.urlAPI}/beers/${payload.pub_id}`, options)
         .subscribe(result =>{
           resolve(result);
         },

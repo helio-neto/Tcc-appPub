@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar #navbar>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
@@ -8,46 +8,149 @@
     </ion-navbar>
   </ion-header>
   
-  <ion-content>
-    <div *ngIf="!selectedItem">
-        <ion-list *ngFor="let beer of beers">
-            <div *ngIf="beer != null" >
-              <ion-item (click)="itemTapped($event, beer)">
-                <ion-avatar item-start>
-                  <img src="assets/icon/mapicons/beer.png">
-                </ion-avatar>
-                <h2>{{beer.name}}</h2>
-                <p>{{beer.style}}</p>
-              </ion-item>
-            </div>
-          </ion-list>
-    </div>
-    <div *ngIf="selectedItem" padding>
-      <ion-item>
-          <ion-avatar item-start>
-              <img src="assets/icon/mapicons/beer.png">
+  <ion-content padding>
+    <div *ngIf="!selectedItem" >
+      <ion-list *ngFor="let beer of beers" >
+        <div *ngIf="beer != null">
+          <ion-item (click)="itemTapped($event, beer)">
+            <ion-avatar item-start>
+              <img [src]="beer.icon">
             </ion-avatar>
-          <h1>Informações</h1>
-          <p><b>IBU : </b>{{selectedItem.ibu}}</p>
-          <p><b>ABV : </b>{{selectedItem.abv}}</p>
-          <p><b>Estilo : </b>{{selectedItem.style}}</p>
-          <p><b>Preços : </b></p>
-          <p><b> - 1/2 Pint - </b>R${{selectedItem.price.half_pint}}</p>
-          <p><b> - Pint - </b>R${{selectedItem.price.pint}}</p>
-          <p><b> - Mass - </b>R${{selectedItem.price.mass}}</p>
-          <p><b> - Obs - </b>R${{selectedItem.obs}}</p>
-      </ion-item>
-      <ion-item>
-          <button ion-button icon-left clear item-left (click)="editBeer(selectedItem)">
-              <ion-icon name="construct"></ion-icon>
-              Editar
-          </button>
-      </ion-item>
+            <h2><b>{{beer.name}}</b></h2>
+            <p style="font-size: 1.3rem">
+              {{beer.style}}<span ion-text style="font-size: 30px">.</span>{{beer.ibu}} IBU<span ion-text style="font-size: 30px">.</span>{{beer.abv}}% ABV
+            </p>
+            <ion-note item-right iont-text color="primary">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
+          </ion-item>
+        </div>
+      </ion-list>
     </div>
+    <div *ngIf="selectedItem">
+      <ion-row class="header">
+        <ion-col col-6>
+          <img [src]="selectedItem.icon">
+        </ion-col>
+        <ion-col class="button-container" col-3 align-self-start>
+          <button ion-button small icon-left clear color="secondary" (click)="editBeer(selectedItem)">
+            <ion-icon name="construct" color="secondary"></ion-icon>
+            Editar
+          </button>
+        </ion-col>
+        <ion-col class="button-container" col-3 align-self-start>
+          <button ion-button small icon-left clear color="danger" (click)="presentConfirmDelete(selectedItem)" >
+            <ion-icon name="trash" color="danger"></ion-icon>
+            Deletar
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <h4 class="name">{{selectedItem.name}}</h4>
+          <p>
+            <b>Estilo: </b><span class="beer-style"> {{selectedItem.style}}</span>
+          </p>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col col-4 align-self-start>
+          <img src="{{icons.ibu}}" width="15" height="15"/> {{selectedItem.ibu}} IBU 
+        </ion-col>
+        <ion-col col-8>
+          <img src="{{icons.abv}}" width="15" height="15"/> {{selectedItem.abv}} ABV
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4 align-self-start>
+          <h5>Preços</h5>
+        </ion-col>
+      </ion-row>
+      <ion-grid text-center>
+          <ion-row>
+              <ion-col width-20>
+                <b>Half-Pint</b>
+              </ion-col>
+              <ion-col width-20>
+                <b>Pint</b>
+              </ion-col>
+              <ion-col width-20>
+                <b>Mass</b>
+              </ion-col>
+            </ion-row>
+        <ion-row>
+          <ion-col width-20>
+            <img [src]="selectedItem.icon" width="30" height="30">
+          </ion-col>
+          <ion-col width-20>
+            <img [src]="selectedItem.icon" width="35" height="35">
+          </ion-col>
+          <ion-col width-20>
+            <img [src]="selectedItem.icon" width="55" height="55">
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col width-20>
+                R$ {{selectedItem.price.half_pint}}
+            </ion-col>
+            <ion-col width-20>
+                R$ {{selectedItem.price.pint}}
+            </ion-col>
+            <ion-col width-20>
+                R$ {{selectedItem.price.mass}}
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+      <ion-row>
+        <ion-col>
+          <h5>Informações</h5>
+          <p>
+            {{selectedItem.obs}}
+          </p>
+        </ion-col>
+      </ion-row>
+    </div>
+    
     <ion-fab right bottom>
-        <button ion-fab mini (click)="addBeer()" >
-          <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-fab>
+      <button ion-fab mini (click)="addBeer()" >
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
   </ion-content>
-  
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          <button ion-button icon-left clear item-left color="secondary" (click)="editBeer(selectedItem)">
+            <ion-icon name="construct" color="secondary"></ion-icon>
+            Editar
+          </button>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <button ion-button icon-left clear item-left color="danger" (click)="presentConfirmDelete(selectedItem)" >
+            <ion-icon name="trash" color="danger"></ion-icon>
+            Deletar
+          </button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+  <!-- <ion-grid no-padding>
+    <ion-row align-items-end>
+      <ion-col col-auto>
+        <div><img [src]="beer.icon" width="20" height="20">{{beer.style}}</div>
+      </ion-col>
+      <ion-col>
+        <div><img src="{{icons.ibu}}" width="15" height="15">{{beer.ibu}}</div>
+      </ion-col>
+      <ion-col>
+        <div><img src="{{icons.abv}}" width="20" height="20">{{beer.abv}}</div>
+      </ion-col>
+      <ion-col>
+        <ion-note item-end><ion-icon name="arrow-forward"></ion-icon></ion-note>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->

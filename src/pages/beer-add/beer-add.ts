@@ -18,6 +18,7 @@ export class BeerAddPage {
               public alertCtrl: AlertController, public toastCtrl: ToastController, private pubPRov: PubProvider,
               private storage: Storage) {
                 this.beerForm = this.formBuilder.group({
+                  pub_id:[''],
                   name: ['', Validators.required],
                   style: ['', Validators.required],
                   ibu: ['', Validators.required],
@@ -75,7 +76,21 @@ export class BeerAddPage {
       this.submitAttempt = false;
       console.log("success!")
       console.log("Form ->",this.beerForm.value);
-      
+      this.pubPRov.addBeer(this.beerForm.value).then((resp)=>{
+        console.log("ADD BEER RESPONSE ->",resp);
+        this.presentToast(resp["message"],"success");
+        this.storage.get("pub_userdata").then((val)=>{
+          val.pub.beers = resp["beers"];
+          this.storage.set("pub_userdata",val);
+          console.log("STORAGE UPDATED");
+        });
+        setTimeout(() => {
+          this.navCtrl.setRoot("BeerMenuPage");
+        }, 1000);
+      }).catch((error)=>{
+        console.log("ADD BEER ERROR ->",error);
+        this.presentToast(error["message"],"error");
+      });
     }
   }
   // 
@@ -93,5 +108,7 @@ export class BeerAddPage {
     
     toast.present();
   }
+  // 
+
 
 }

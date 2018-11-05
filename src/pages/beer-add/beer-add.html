@@ -8,78 +8,91 @@
 </ion-header>
 
 <ion-content padding> 
-  <ion-row>
+  <ion-row class="beerimage">
       <ion-col>
-        <ion-avatar item-start>
+        
           <img src="assets/icon/mapicons/beer.png">
-        </ion-avatar>
+       
       </ion-col>
   </ion-row>
   <p *ngIf="submitAttempt" style="color: #ea6153;">Por favor preencha os campos corretamente.</p>
   
   <ion-list>
-      <form [formGroup]="beerForm">
-          <ion-item>
-              <ion-label floating>Nome </ion-label>
-              <ion-input formControlName="name" type="text" [class.invalid]="!beerForm.controls['name'].valid && (beerForm.controls['name'].dirty || submitAttempt)"></ion-input>
-          </ion-item>
-          <ion-item *ngIf="!beerForm.controls['name'].valid  && (beerForm.controls['name'].dirty || submitAttempt)">
-              <p>* Por favor entre um nome válido.</p>
-          </ion-item>
-          <ion-item>
-              <ion-label floating>Estilo</ion-label>
-              <ion-input formControlName="style" type="text" [class.invalid]="!beerForm.controls['style'].valid && (beerForm.controls['style'].dirty || submitAttempt)"></ion-input>
-          </ion-item>
-          <ion-item *ngIf="!beerForm.controls['style'].valid  && (beerForm.controls['style'].dirty || submitAttempt)">
-              <p>* Por favor entre um estilo válido.</p>
-          </ion-item>
-          <ion-item>
-              <ion-label floating>Ibu</ion-label>
-              <ion-input formControlName="ibu" type="text" [class.invalid]="!beerForm.controls['ibu'].valid && (beerForm.controls['ibu'].dirty || submitAttempt)"></ion-input>
-          </ion-item>
-          <ion-item *ngIf="!beerForm.controls['ibu'].valid  && (beerForm.controls['ibu'].dirty || submitAttempt)">
-              <p>* Por favor entre um ibu válido.</p>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>abv</ion-label>
-            <ion-input formControlName="abv" type="text" [class.invalid]="!beerForm.controls['abv'].valid && (beerForm.controls['abv'].dirty || submitAttempt)"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="!beerForm.controls['abv'].valid  && (beerForm.controls['abv'].dirty || submitAttempt)">
-          <p>* Por favor entre um abv válido.</p>
-      </ion-item>
-          <ion-item>
-              <ion-label floating>Observações</ion-label>
-              <ion-textarea formControlName="obs" type="text" [class.invalid]="!beerForm.controls['obs'].valid && (beerForm.controls['obs'].dirty || submitAttempt)"></ion-textarea>
-          </ion-item>
-          <span formGroupName="price" no-lines>
-            <ion-list>
-                <ion-item>
-                    <ion-label floating>Preço - Half-Pint</ion-label>
-                    <ion-input type="text" formControlName="half_pint"></ion-input>
-                </ion-item>
-                <ion-item *ngIf="!beerForm.controls['price'].controls['half_pint'].valid  && (beerForm.controls['price'].controls['half_pint'].dirty || submitAttempt)">
-                    <p>* Por favor entre um preço válido.</p>
-                </ion-item>
-                <ion-item>
-                  <ion-label floating>Preço - Pint</ion-label>
-                  <ion-input type="text" formControlName="pint"></ion-input>
-              </ion-item>
-              <ion-item *ngIf="!beerForm.controls['price'].controls['pint'].valid  && (beerForm.controls['price'].controls['pint'].dirty || submitAttempt)">
-                  <p>* Por favor entre um preço válido.</p>
-              </ion-item>
-              <ion-item>
-                <ion-label floating>Preço - Mass</ion-label>
-                <ion-input type="text" formControlName="mass"></ion-input>
+        <form [formGroup]="beerForm">
+            <ion-item>
+                <ion-label>Nome </ion-label>
+                <ion-input formControlName="name" type="text" [class.invalid]="!beerForm.controls['name'].valid && (beerForm.controls['name'].dirty || submitAttempt)"></ion-input>
             </ion-item>
-            <ion-item *ngIf="!beerForm.controls['price'].controls['mass'].valid  && (beerForm.controls['price'].controls['mass'].dirty || submitAttempt)">
-                <p>* Por favor entre um preço válido.</p>
+            <ion-item *ngIf="!beerForm.controls['name'].valid  && (beerForm.controls['name'].dirty || submitAttempt)">
+                <p>* Por favor entre um nome válido.</p>
             </ion-item>
-            </ion-list>    
-        </span>
-      </form>
-      
-  </ion-list>
-  <!-- <button ion-button full [disabled]="!beerForm.valid"
-          color="primary" (click)="presentConfirmEdit()">Adicionar!
-  </button> -->
+            <ion-item>
+                <ion-label>Estilo</ion-label>
+                <ion-input formControlName="style" type="text" [class.invalid]="!beerForm.controls['style'].valid && (beerForm.controls['style'].dirty || submitAttempt)"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!beerForm.controls['style'].valid  && (beerForm.controls['style'].dirty || submitAttempt)">
+                <p>* Por favor entre um estilo válido.</p>
+            </ion-item>
+            <ion-row>
+                <ion-col col-4 >
+                    <ion-item>
+                        <ion-label floating>Ibu</ion-label>
+                        <ion-input formControlName="ibu" type="number" step="0.1" [class.invalid]="!beerForm.controls['ibu'].valid && (beerForm.controls['ibu'].dirty || submitAttempt)"></ion-input>
+                    </ion-item>
+                    <ion-item *ngIf="!beerForm.controls['ibu'].valid  && (beerForm.controls['ibu'].dirty || submitAttempt)">
+                        <p>* Por favor entre um ibu válido.</p>
+                    </ion-item>
+                </ion-col>
+                <ion-col col-4>
+                    <ion-item>
+                        <ion-label floating>abv</ion-label>
+                        <ion-input formControlName="abv" type="number" step="0.1" [class.invalid]="!beerForm.controls['abv'].valid && (beerForm.controls['abv'].dirty || submitAttempt)"></ion-input>
+                    </ion-item>
+                    <ion-item *ngIf="!beerForm.controls['abv'].valid  && (beerForm.controls['abv'].dirty || submitAttempt)">
+                        <p>* Por favor entre um abv válido.</p>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        
+            <span formGroupName="price" no-lines>
+                <ion-row>
+                    <ion-col width-20>
+                        <ion-item>
+                            <ion-label floating>Half-Pint</ion-label>
+                            <ion-input formControlName="half_pint" type="number" step="0.1"></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="!beerForm.controls['price'].controls['half_pint'].valid  && (beerForm.controls['price'].controls['half_pint'].dirty || submitAttempt)">
+                            <p>* Por favor entre um preço válido.</p>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col width-20>
+                        <ion-item>
+                            <ion-label floating>Pint</ion-label>
+                            <ion-input formControlName="pint" type="number" step="0.1" ></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="!beerForm.controls['price'].controls['pint'].valid  && (beerForm.controls['price'].controls['pint'].dirty || submitAttempt)">
+                            <p>* Por favor entre um preço válido.</p>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col width-20>
+                        <ion-item>
+                            <ion-label floating>Mass</ion-label>
+                            <ion-input formControlName="mass" type="number" step="0.1" ></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="!beerForm.controls['price'].controls['mass'].valid  && (beerForm.controls['price'].controls['mass'].dirty || submitAttempt)">
+                            <p>* Por favor entre um preço válido.</p>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </span>
+            <ion-item>
+                    <ion-label floating>Observações</ion-label>
+                    <ion-textarea formControlName="obs" type="text" [class.invalid]="!beerForm.controls['obs'].valid && (beerForm.controls['obs'].dirty || submitAttempt)"></ion-textarea>
+                </ion-item>
+        </form>
+        
+    </ion-list>
+  <button ion-button full [disabled]="!beerForm.valid"
+          color="primary" (click)="presentConfirmAdd()">Adicionar!
+  </button>
 </ion-content>
