@@ -4,7 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PubProvider } from './../../providers/pub/pub';
 import { GoogleMapsProvider } from './../../providers/google-maps/google-maps';
 import { Storage } from '@ionic/storage';
-
+import { LoadingProvider } from './../../providers/loading/loading';
 import { HomePage } from './../home/home';
 
 @IonicPage()
@@ -21,7 +21,7 @@ export class SignupPage {
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController,
               public navParams: NavParams, private formBuilder: FormBuilder,public pubprov:PubProvider, 
-              public googleMapsProvider: GoogleMapsProvider, private storage: Storage ) {
+              public googleMapsProvider: GoogleMapsProvider, private storage: Storage, public loadProvider: LoadingProvider ) {
     this.pubForm = this.formBuilder.group({
       pubname: ['', Validators.required],
       location: formBuilder.group({
@@ -139,25 +139,34 @@ export class SignupPage {
         this.submitAttempt = true; 
     }
     else {
+      this.loadProvider.presentWithMessage("Cevando informações...");
       this.submitAttempt = false;
       console.log("success!")
       console.log("Form ->",this.pubForm.value);
       this.pubprov.register(this.pubForm.value).subscribe(
           (res)=>{
-            if(res.status == "success"){
-              let message = `${res.message}`;
-              this.presentToast(message,"success");
-              // this.storage.set('userdata',{
-              //   pubid: res.pubid,
-              //   isLoggedIn: true
-              // })
-              setTimeout(() => {
-                  this.navCtrl.setRoot(HomePage);
-              }, 4000);
-            }else{
-              let message = `${res.message}`;
-              this.presentToast(message,"error");
-            }
+            this.loadProvider.dismiss().then(()=>{
+              if(res.status == "success"){
+                let message = `${res.message}`;
+                this.presentToast(message,"success");
+                // this.storage.set('userdata',{
+                //   pubid: res.pubid,
+                //   isLoggedIn: true
+                // })
+                setTimeout(() => {
+                    this.navCtrl.setRoot(HomePage);
+                }, 4000);
+              }else{
+                let message = `${res.message}`;
+                this.presentToast(message,"error");
+              }
+            });
+          },
+          (error)=>{
+            this.loadProvider.dismiss().then(()=>{
+              let message = `${error}`;
+                this.presentToast(message,"error");
+            })
           }
         );
     }

@@ -22,7 +22,7 @@
     background-color: map-get($colors, background_menu);
 }
 ion-toast.success .toast-wrapper {
-    background-color: map-get($colors, secondary);
+    background-color: map-get($colors, primary);
 }
 
 ion-toast.error .toast-wrapper {

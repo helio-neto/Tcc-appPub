@@ -10,7 +10,8 @@
 
 <ion-content class="background_menu" *ngIf="pubReady" >
   <ion-card *ngIf="pubdata.pub.pubname">
-    <img class="pubimage" [src]="pubdata.pub.photo" height='200' />
+    <img class="pubimage" src="{{pubdata.pub.photo}}"
+            onError="this.src='assets/imgs/beerslide3.jpg';"/>
     <ion-card-content>
       <h2 class="card-title">{{pubdata.pub.pubname}}</h2>
       <p>{{pubdata.pub.location.street}}, {{pubdata.pub.location.city}} {{pubdata.pub.location.uf}}</p>

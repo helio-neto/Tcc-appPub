@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController} 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PubProvider } from './../../providers/pub/pub';
 import { Storage } from '@ionic/storage';
+import { LoadingProvider } from './../../providers/loading/loading';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,7 @@ export class BeerAddPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
               public alertCtrl: AlertController, public toastCtrl: ToastController, private pubPRov: PubProvider,
-              private storage: Storage) {
+              private storage: Storage, public loadProvider: LoadingProvider) {
                 this.beerForm = this.formBuilder.group({
                   pub_id:[''],
                   name: ['', Validators.required],
@@ -73,23 +74,29 @@ export class BeerAddPage {
       this.submitAttempt = true; 
     }
     else {
+      this.loadProvider.presentWithMessage("Adicionando cevada e lúpulo...");
       this.submitAttempt = false;
       console.log("success!")
       console.log("Form ->",this.beerForm.value);
-      this.pubPRov.addBeer(this.beerForm.value).then((resp)=>{
-        console.log("ADD BEER RESPONSE ->",resp);
-        this.presentToast(resp["message"],"success");
-        this.storage.get("pub_userdata").then((val)=>{
-          val.pub.beers = resp["beers"];
-          this.storage.set("pub_userdata",val);
-          console.log("STORAGE UPDATED");
-        });
-        setTimeout(() => {
-          this.navCtrl.setRoot("BeerMenuPage");
-        }, 1000);
+      this.pubPRov.addBeer(this.beerForm.value).then(
+        (resp)=>{
+          this.loadProvider.dismiss().then(()=>{
+            console.log("ADD BEER RESPONSE ->",resp);
+            this.presentToast(resp["message"],"success");
+            this.storage.get("pub_userdata").then((val)=>{
+              val.pub.beers = resp["beers"];
+              this.storage.set("pub_userdata",val);
+              console.log("STORAGE UPDATED");
+            });
+            setTimeout(() => {
+              this.navCtrl.setRoot("BeerMenuPage");
+            }, 1000);
+          });
       }).catch((error)=>{
-        console.log("ADD BEER ERROR ->",error);
-        this.presentToast(error["message"],"error");
+        this.loadProvider.dismiss().then(()=>{
+          console.log("ADD BEER ERROR ->",error);
+          this.presentToast(error["message"],"error");
+        });
       });
     }
   }

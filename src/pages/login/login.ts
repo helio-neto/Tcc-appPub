@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, Events } from 'io
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { PubProvider } from './../../providers/pub/pub';
+import { LoadingProvider } from './../../providers/loading/loading';
 
 @IonicPage()
 @Component({
@@ -14,7 +15,7 @@ export class LoginPage {
   submitAttempt: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
               public pubprov:PubProvider, private storage: Storage, public toastCtrl: ToastController,
-              public events: Events) {
+              public events: Events, public loadProvider: LoadingProvider) {
 
               this.loginForm = this.formBuilder.group({
                   email: ['',Validators.compose([Validators.required, Validators.email]) ],
@@ -47,26 +48,30 @@ export class LoginPage {
       this.submitAttempt = true; 
     }
     else {
+      this.loadProvider.presentWithMessage("Cevando informações...");
       this.submitAttempt = false;
       console.log("success!")
       console.log("Form ->",this.loginForm.value);
-      this.pubprov.login(this.loginForm.value).subscribe((login)=>{
-        if(login.status == "error"){
-          this.presentToast(login.message,"error");
-        }else{
-          this.presentToast(login.message,"success");
-          this.storage.set('pub_userdata',Object.assign({
-              pub: login.pub,
-              isLoggedIn: true,
-              token: login.token
-            })
-          );
-          setTimeout(() => {
-            this.events.publish("login");
-            this.navCtrl.setRoot("ProfilePage");
-          }, 4000);
-        }
-        console.log("Login response ->",login);
+      this.pubprov.login(this.loginForm.value).subscribe(
+        (login)=>{
+          this.loadProvider.dismiss().then(()=>{
+            if(login.status == "error"){
+              this.presentToast(login.message,"error");
+            }else{
+              this.presentToast(login.message,"success");
+              this.storage.set('pub_userdata',Object.assign({
+                  pub: login.pub,
+                  isLoggedIn: true,
+                  token: login.token
+                })
+              );
+              setTimeout(() => {
+                this.events.publish("login");
+                this.navCtrl.setRoot("ProfilePage");
+              }, 4000);
+            }
+            console.log("Login response ->",login);
+          })
       });
     }
 
